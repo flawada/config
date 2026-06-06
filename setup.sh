@@ -49,5 +49,6 @@ if ! [ -z "$(ls -A)" ]; then
 fi
 
 cd ${local_path}/mango
+echo test
 
 ./install.sh
