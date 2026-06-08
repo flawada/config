@@ -52,5 +52,5 @@ sudo dnf in -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/ter
 sudo dnf in -y mangowm
 
 mkdir -p ~/.config/mango
-echo python ${local_path}/install.py > ~/.config/mango/config.conf
+echo exec-once = python ${local_path}/install.py > ~/.config/mango/config.conf
 mango
