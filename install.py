@@ -1,11 +1,11 @@
 # example file for now, not self made
-
 import sys
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QCheckBox, QStackedWidget
 )
 from PySide6.QtGui import QFont
+from subprocess import run
 
 
 class InstallerWindow(QMainWindow):
@@ -92,7 +92,7 @@ class InstallerWindow(QMainWindow):
         layout.setContentsMargins(40, 40, 40, 40)
         
         # Title
-        title = QLabel("Welcome to Application Installer")
+        title = QLabel("Fedora Installer")
         title_font = QFont()
         title_font.setPointSize(18)
         title_font.setBold(True)
@@ -101,8 +101,8 @@ class InstallerWindow(QMainWindow):
         
         # Description
         description = QLabel(
-            "This wizard will guide you through the installation process.\n\n"
-            "Please click 'Next' to continue with the installation."
+            "Install Nvidia Drivers\n\n"
+            "Press Ctrl + H if you dont see your cursor"
         )
         description_font = QFont()
         description_font.setPointSize(11)
@@ -242,6 +242,7 @@ class InstallerWindow(QMainWindow):
     def start_installation(self):
         """Handle installation"""
         print("Installing with options:", self.install_options)
+        run(["pkill","mango"])
         self.close()
     
     def go_to_page(self, page_index):
@@ -256,6 +257,9 @@ def main():
     window.show()
     sys.exit(app.exec())
 
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
