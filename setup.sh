@@ -20,7 +20,7 @@ cd /tmp
 
 sudo dnf in -y git
 if ! [ -d "/tmp/mango" ]; then
-  git clone https://github.com/flawada/mango
+  git clone https://github.com/flawada/blueprint
 fi
 
 #if ! rpm -q terra-release >/dev/null 2>&1; then
