@@ -13,4 +13,4 @@ for blueprint in */; do
 done
 
 read -p "select blueprint: " item
-print(${blueprints[$item]})
+echo ${blueprints[$item]}
