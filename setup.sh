@@ -29,4 +29,4 @@ fi
 #sudo dnf in -y mangowm
 #sudo dnf in -y mesa-libgbm mesa-libGL
 
-bash 
+bash /tmp/blueprint/setup/main.sh
