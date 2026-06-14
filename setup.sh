@@ -19,7 +19,7 @@ fi
 cd /tmp
 
 sudo dnf in -y git
-if ! [ -d "/tmp/mango" ]; then
+if ! [ -d "/tmp/blueprint" ]; then
   git clone https://github.com/flawada/blueprint
 fi
 
