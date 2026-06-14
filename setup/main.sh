@@ -1,1 +1,10 @@
-echo done
+cd ../blueprints
+
+
+blueprints=()
+
+for blueprint in */; do
+    blueprints+=("$blueprint")
+done
+
+echo blueprint
