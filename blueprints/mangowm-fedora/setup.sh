@@ -7,9 +7,9 @@ sudo dnf in mangowm foot thunar waybar mako wlsunset swaybg wl-clipboard gtklock
 sudo dnf in nwg-look gedit engrampa firefox xdg-user-dirs -y
 xdg-user-dirs-update
 
-curl -sS https://starship.rs/install.sh | sh
+curl -sS https://starship.rs/install.sh | sh -s -- -y
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
-cp -r /tmp/blueprint/blueprints/mangowm-fedora ~/.config/
+cp -r /tmp/blueprint/blueprints/mangowm-fedora/config/* ~/.config/
 
 mango
