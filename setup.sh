@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+repo="config"
 
 if ! grep -q '^ID=fedora' /etc/os-release; then
   echo "! Warning ! : This script is made for fedora everthing"
@@ -21,15 +22,15 @@ cd /tmp
 sudo dnf in -y git
 
 
-if ! [ -d "/tmp/blueprint" ]; then
-  git clone https://github.com/flawada/blueprint
+if ! [ -d "/tmp/$repo" ]; then
+  git clone https://github.com/flawada/$repo
 fi
 
 ######
 
 clear
 
-cd /tmp/blueprint/blueprints
+cd /tmp/$repo/blueprints
 
 blueprints=()
 i=0
