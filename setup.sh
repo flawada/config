@@ -3,34 +3,33 @@
 set -e
 repo="config"
 
-if ! grep -q '^ID=fedora' /etc/os-release; then
-  echo "! Warning ! : This script is made for fedora everthing"
-  read -p "Continure? [y/n]: " p
-  case "$p" in
-  [yY])
-    echo "continure text"
-    ;;
-  *)
-    echo "Exit text"
-    exit
-    ;;
-  esac
+if [ "$(uname)" != "Linux" ]; then
+  echo "this script must be run on linux"
+  exit 1
 fi
+
+OS=$(grep -Po '(?<=^ID=).*' /etc/os-release | tr -d '"')
 
 cd /tmp
 
 sudo dnf in -y git
 
-
 if ! [ -d "/tmp/$repo" ]; then
   git clone https://github.com/flawada/$repo
 fi
 
-######
+if ! [ -d "/tmp/$repo/blueprints/$OS" ]; then
+  echo "$OS is not supported yet"
+  echo "suported distros: "
+  ls /tmp/$repo/blueprints
+  exit 1
+fi
+
+#####
 
 clear
 
-cd /tmp/$repo/blueprints
+cd /tmp/$repo/blueprints/$OS
 
 blueprints=()
 i=0
