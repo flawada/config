@@ -39,10 +39,15 @@ i=0
 for blueprint in */; do
   blueprints+=("$blueprint")
   echo "$i) ${blueprint%/}"
+  echo test1
   i=$((i+1))
 done
 
+echo test2
+
 read -p "select blueprint: " item
+
+echo test3
 
 clear
 
