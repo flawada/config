@@ -54,5 +54,5 @@ cd ${blueprints[$item]}
 
 sudo dnf update -y
 
-chmod +x script.sh
+chmod +x setup.sh
 ./setup.sh
