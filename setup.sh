@@ -2,7 +2,7 @@
 
 clear
 
-#set -e
+set -e
 repo="config"
 
 if [ "$(uname)" != "Linux" ]; then
@@ -46,7 +46,7 @@ read -p "select blueprint: " item
 
 clear
 
-cd "${blueprints[$item]}"
+cd ${blueprints[$item]}
 
 sudo dnf update -y
 
