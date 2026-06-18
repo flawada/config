@@ -8,5 +8,6 @@ if status is-login
     end
 end
 
+stty intr ^X
 set -g fish_greeting
 starship init fish | source

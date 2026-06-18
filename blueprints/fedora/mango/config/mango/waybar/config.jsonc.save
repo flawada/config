@@ -3,34 +3,27 @@
   "position": "top",
   "width": "auto",
   "height": 36,
-  "modules-left": [ "ext/workspaces"],
+  "modules-left": ["ext/workspaces"],
   "modules-center": ["clock"],
   "modules-right": ["network", "bluetooth", "wireplumber", "battery", "mpris" , "custom/power"],
 
   "mpris": {
-    "format": "{player_icon}{title}",
+    "format": "{player_icon} {title}",
+    "format-paused": "{status_icon} <i>{title}</i>",
     "player-icons": {
       "default": "<span></span>",
-      "spotify": "<span color='#a094b3'>  |</span>"
+      "spotify": "<span color='#1DB954'> </span>"
+    },
+    "status-icons": {
+      "paused": "<span></span>"
     },
     "max-length": 25,
     "on-click": "playerctl previous",
-    "on-click-right": "playerctl next",
-    "on-scroll-up": "playerctl position 5+",
-    "on-scroll-down": "playerctl position 5-"
+w    "on-click-right": "playerctl next"
   },
-
-/*
-  "custom/menu": {
-    "format-icons": ["<span color='#a094b3'font='17.5'>⛶ </span>"],
-    "format": "{icon}",
-    "tooltip": false,
-    "on-click": "rofi -config ~/.config/mango/rofi/config.rasi -show drun -show-icons"
-  },
-*/
 
   "custom/power": {
-    "format-icons": ["<span color='#a094b3'></span>"],
+    "format-icons": ["<span color='#e2d0a3'></span>"],
     "format": "{icon}",
     "tooltip": false,
     "on-click": "wlogout"
@@ -44,12 +37,12 @@
   },
   "network": {
     // "max-length": 10,
-    "format-wifi": "{essid}  <span color='#a094b3'></span>",
+    "format-wifi": "{essid}  <span color='#8aade0'></span>",
     "format-ethernet": "{ipaddr}/{cidr}",
     "tooltip-format": "{ifname} via {gwaddr}",
     "format-linked": "{ifname} (No IP)",
     "format-disconnected": "Disconnected ⚠",
-    "on-click": "kitty --class nmtui nmtui"
+    "on-click": "nm-connection-editor"
     // "format-alt": "{ifname}: {ipaddr}/{cidr}",
   },
   "clock": {
@@ -70,17 +63,17 @@
     }
   },
   "bluetooth": {
-    "format": "<span color='#a094b3'></span>",
-    "format-disabled": "<span color='#a094b3'>󰂲</span>",
+    "format": "",
+    "format-disabled": "<span color='#db9a9a'>󰂲</span>",
     "tooltip": false,
     "on-click": "blueman-manager"
   },
   "wireplumber": {
-    "format": "{volume}% <span color='#a094b3'>{icon}</span>",
+    "format": "{volume}% <span color='#8aade0'>{icon}</span>",
     "format-icons": {
       "default": ["", "", ""]
     },
-    "format-muted": "<span color='#a094b3'></span>",
+    "format-muted": "<span color='#8aade0'></span>",
     "on-click": "pavucontrol"
   },
   "battery": {
@@ -93,6 +86,6 @@
     "format-full": "{capacity}% {icon}",
     "format-charging": "{capacity}% ",
     "format-alt": "{time} {icon}",
-    "format-icons": ["<span color='#a094b3'></span>", "<span color='#a094b3'></span>", "<span color='#a094b3'></span>", "<span color='#a094b3'></span>", "<span color='#a094b3'></span>"]
+    "format-icons": ["<span color='#8aade0'></span>", "<span color='#8aade0'></span>", "<span color='#8aade0'></span>", "<span color='#8aade0'></span>", "<span color='#8aade0'></span>"]
   }
 }
