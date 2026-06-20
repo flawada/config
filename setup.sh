@@ -18,6 +18,7 @@ fi
 
 
 ### change to automatic update
+### install: gum, tar (gunzip)
 case "$ID" in
   fedora)
     printf "%bFedora%b\n" "$GREEN" "$NC"
