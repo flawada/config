@@ -17,7 +17,32 @@ else
 fi
 
 
-### change to automatic update
+OS=($(curl -s "https://api.github.com/repos/flawada/config/contents/blueprints" | grep "name" | cut -d '"' -f 4))
+
+if [[ "${OS[*]}" == *"$ID"* ]]; then
+    printf "%bSupported distro%b\n" "$GREEN" "$NC"
+fi
+
+
+
+blueprints=($(curl -s "https://api.github.com/repos/flawada/config/contents/blueprints/$ID" | grep "name" | cut -d '"' -f 4))
+
+
+printf "%bSelect a config:%b\n" "$BLUE" "$NC"
+select blueprint in "${blueprints[@]}"; do
+    # Check if the user's choice matches an item in our list
+    if [ -n "$blueprint" ]; then
+        break
+    else
+        echo "Invalid choice"
+    fi
+done
+
+
+curl -s https://raw.githubusercontent.com/flawada/blueprint/main/blueprints/$ID/$blueprint/files.tar
+
+
+exit 1
 ### install: gum, tar (gunzip)
 case "$ID" in
   fedora)
@@ -29,18 +54,11 @@ case "$ID" in
     ;;
 esac
 
-cat <(curl -s "https://raw.githubusercontent.com/flawada/blueprint/main/blueprints/$ID/options.txt")
-
-
-
-
-
-
-
-
-
 
 #### deprecated ####
+
+#printf "%s\n" "${blueprints[@]}"
+#blueprint=$(printf "%s\n" "${blueprints[@]}" | gum choose --header "Choose a config:")
 
 #cd /tmp
 #sudo dnf in -y git
