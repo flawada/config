@@ -23,7 +23,6 @@ EOF
 )"
 
 printf "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-
 printf "%bChecking System..%b\n" "$BLUE" "$NC"
 
 if [ -f /etc/os-release ]; then
@@ -46,19 +45,25 @@ blueprints=($(curl -s "https://api.github.com/repos/flawada/config/contents/blue
 
 printf "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
 
-printf "%bSelect a config:%b\n" "$BLUE" "$NC"
-select blueprint in "${blueprints[@]}"; do
-    if [ -n "$blueprint" ]; then
-        break
-    else
-        printf "%bInvalid choice%b\n" "$RED" "$NC"
-    fi
-done
+if [ "${#blueprints[@]}" -eq 0 ]; then
+    printf "%bError: No config found. %b\n" "$RED" "$NC"
+    exit 1
+elif [ "${#blueprints[@]}" -eq 1 ]; then
+    blueprint="${blueprints[0]}"
+    printf "%bFound %s config..%b\n" "$BLUE" "$blueprint" "$NC"
+else
+    printf "%bSelect a config:%b\n" "$BLUE" "$NC"
+    select blueprint in "${blueprints[@]}"; do
+        if [ -n "$blueprint" ]; then
+            break
+        else
+            printf "%bInvalid choice%b\n" "$RED" "$NC"
+        fi
+    done
+fi
 
 printf "%bConfig selected%b\n" "$GREEN" "$NC"
-
 printf "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-
 printf "%bDownloading..%b\n" "$BLUE" "$NC"
 
 curl -sL https://raw.githubusercontent.com/flawada/blueprint/main/blueprints/$ID/$blueprint/files.tar | tar -xf - -C /tmp
@@ -68,10 +73,10 @@ if ! [ -f /tmp/files/setup.sh ]; then
     exit 1
 fi
 
+# add checksum check
+
 printf "%bDownloaded to /tmp%b\n" "$GREEN" "$NC"
-
 printf "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-
 printf "%bInstalling..%b\n" "$BLUE" "$NC"
 
 while ! sudo -v; do

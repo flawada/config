@@ -4,9 +4,9 @@ sudo dnf copr enable -y leloubil/wl-clip-persist
 
 sudo dnf in -y mangowm ghostty thunar waybar mako wlsunset swaybg wl-clip-persist cliphist gtklock playerctl rofi wlogout blueman-manager pavucontrol nm-connection-editor xdg-desktop-portal xdg-desktop-portal-wlr xorg-x11-server-Xwayland xfce-polkit gedit nwg-look xdg-user-dirs zsh eza git
 
-xdg-user-dirs-update
-
 # engrampa zen-browser
+
+xdg-user-dirs-update
 
 cp -r /tmp/files/home/. ~
 curl -Lso ~/.config/mango/wallpaper.png https://w.wallhaven.cc/full/xe/wallhaven-xe7ylv.png
@@ -18,4 +18,7 @@ curl -sS https://starship.rs/install.sh | sh -s -- -y
 
 printf '[Service]\nExecStart=\nExecStart=-/usr/sbin/agetty --autologin %s --noclear %%I $TERM\n' "$USER" | sudo systemctl edit getty@tty1 --stdin
 
+clear
+printf "rebooting in 10s..\n"
+sleep 10
 reboot
