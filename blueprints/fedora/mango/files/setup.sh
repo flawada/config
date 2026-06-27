@@ -1,28 +1,57 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
+if ! rpm -q terra-release &>/dev/null; then
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
+fi
 sudo dnf copr enable -y leloubil/wl-clip-persist
 sudo dnf copr enable -y sneexy/zen-browser
 
 sudo dnf in -y mangowm ghostty thunar zen-browser waybar mako wlsunset swaybg wl-clip-persist cliphist gtklock playerctl rofi wlogout blueman-manager pavucontrol nm-connection-editor xdg-desktop-portal xdg-desktop-portal-wlr xorg-x11-server-Xwayland xfce-polkit gedit nwg-look xdg-user-dirs zsh eza git
-
 # engrampa
 
 xdg-user-dirs-update
 
-cp -r /tmp/files/home/. ~
-curl -Lso ~/.config/mango/wallpaper.png https://w.wallhaven.cc/full/xe/wallhaven-xe7ylv.png
+cp -r /tmp/files/home/. "$HOME"
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
-sudo chsh -s $(which zsh) $USER
-curl -sS https://starship.rs/install.sh | sh -s -- -y
-
+sudo chsh -s "$(which zsh)" "$USER"
 printf '[Service]\nExecStart=\nExecStart=-/usr/sbin/agetty --autologin %s --noclear %%I $TERM\n' "$USER" | sudo systemctl edit getty@tty1 --stdin
+if [ ! -d "$HOME/.zsh/zsh-autosuggestions" ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh/zsh-autosuggestions"
+fi
+if [ ! -d "$HOME/.zsh/zsh-syntax-highlighting" ]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting "$HOME/.zsh/zsh-syntax-highlighting"
+fi
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+curl -Lso "$HOME/.config/mango/wallpaper.png" https://w.wallhaven.cc/full/xe/wallhaven-xe7ylv.png
 
 clear
+
+if lspci | grep -i "NVIDIA" > /dev/null; then
+  printf "Nvidia hardware detected. Install rpmfusion?\nNote: This will install modern drivers. Dont use if you have a legacy card.\n"
+  while true; do
+    read -rn 1 -p "(y/n): " yn
+    printf "\n"
+    case $yn in
+      [Yy]* )
+        sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+        printf "Compiling driver modules. This might take a while\n"
+        sleep 10
+        while systemctl list-jobs | grep -q "akmods"; do
+          printf "."
+          sleep 10
+        done
+        printf "\n"
+        break;;
+      [Nn]* ) break;;
+      * ) printf "Invalid\n";;
+    esac
+  done
+  clear
+fi
+
 printf "rebooting in 10s..\n"
 sleep 10
-reboot
+sudo reboot
