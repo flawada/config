@@ -66,21 +66,20 @@ printf "%bConfig selected%b\n" "$GREEN" "$NC"
 printf "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
 printf "%bDownloading..%b\n" "$BLUE" "$NC"
 
-curl -sL https://raw.githubusercontent.com/flawada/blueprint/main/blueprints/$ID/$blueprint/files.tar | tar -xf - -C /tmp
+curl -sLf https://raw.githubusercontent.com/flawada/blueprint/main/blueprints/$ID/$blueprint/files.tar | tar -xf - -C /tmp
+
+# add checksum check
+#echo "hash path" | sha256sum --check
 
 if ! [ -f /tmp/files/setup.sh ]; then
     printf "%bError:/tmp/files/setup.sh does not exist. Something went wrong when downloading. %b\n" "$RED" "$NC"
     exit 1
 fi
 
-# add checksum check
-
 printf "%bDownloaded to /tmp%b\n" "$GREEN" "$NC"
 printf "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
 printf "%bInstalling..%b\n" "$BLUE" "$NC"
 
-while ! sudo -v; do
-  sleep 1
-done
-
-bash /tmp/files/setup.sh
+if sudo -v; then
+  bash /tmp/files/setup.sh
+fi
