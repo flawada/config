@@ -40,6 +40,7 @@ fi
 
 clear
 
+# FIX lspci is not installed, systemctl does not work
 if lspci | grep -i "NVIDIA" > /dev/null; then
   printf "Nvidia hardware detected. Install rpmfusion?\nNote: This will install modern drivers. Dont use if you have a legacy card.\n"
   while true; do
@@ -48,9 +49,9 @@ if lspci | grep -i "NVIDIA" > /dev/null; then
     case $yn in
       [Yy]* )
         sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-        sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
-        printf "Compiling driver modules. This might take a while\n"
-        sleep 10
+        sudo dnf install -y  gcc kernel-headers kernel-devel akmod-nvidia xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs xorg-x11-drv-nvidia-libs.i686
+        printf "Compiling driver modules. This might take a while"
+        sleep 180
         while systemctl list-jobs | grep -q "akmods"; do
           printf "."
           sleep 10
